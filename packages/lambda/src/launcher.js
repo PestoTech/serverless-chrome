@@ -62,7 +62,7 @@ export default class Launcher {
     this.userDataDir = this.options.userDataDir || makeTempDir()
     this.outFile = fs.openSync(`${this.userDataDir}/chrome-out.log`, 'a')
     this.errFile = fs.openSync(`${this.userDataDir}/chrome-err.log`, 'a')
-    this.pidFile = '/tmp/chrome.pid'
+    this.pidFile = `${this.userDataDir}/chrome.pid`;
     this.tmpDirandPidFileReady = true
   }
 
@@ -217,7 +217,7 @@ export default class Launcher {
           await this.waitUntilKilled()
           debug('Chrome successfully terminated.')
 
-          this.destroyTemp()
+          await this.destroyTemp()
 
           delete this.chrome
           return resolve()
